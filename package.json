@@ -1,0 +1,60 @@
+{
+  "name": "aigateway-js",
+  "version": "0.1.2",
+  "description": "Official Node/TypeScript SDK for AIgateway — async jobs, sub-accounts, evals, replays, webhook verification. Install as aigateway-js; the bare 'aigateway' name is unavailable on npm.",
+  "keywords": [
+    "ai",
+    "aigateway",
+    "openai-compatible",
+    "llm",
+    "mcp",
+    "sdk"
+  ],
+  "author": "AIgateway",
+  "license": "MIT",
+  "homepage": "https://aigateway.sh",
+  "bugs": {
+    "url": "https://github.com/aigateway-sh/sdk-node/issues",
+    "email": "support@aigateway.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aigateway-sh/sdk-node.git"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean --target node18",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "openai": ">=4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "openai": { "optional": true }
+  },
+  "devDependencies": {
+    "tsup": "^8.3.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  }
+}

@@ -21,7 +21,11 @@ This SDK covers the aggregator-native surface OpenAI doesn't model:
 pnpm add aigateway-js     # or npm install aigateway-js / yarn add aigateway-js
 ```
 
-Node 18+ required (for built-in `fetch`). ESM + CJS exports. Works in Workers, Edge runtimes, Deno, Bun.
+Node 18+ required (for built-in `fetch`). ESM + CJS exports. Works in
+Workers, Edge runtimes, Deno, Bun. The `openai` SDK is an **optional**
+peer — install it only if you want to call drop-in OpenAI endpoints via
+`baseURL`. AIgateway-native features (jobs, sub-accounts, evals,
+replays, signed URLs) need no peer.
 
 ## Quickstart
 
@@ -65,6 +69,26 @@ app.post("/hooks/aigateway", async (req, res) => {
 
 Fetch your webhook secret with `client.webhookSecret.get()` or rotate it with `client.webhookSecret.rotate()`.
 
+## Edge / Workers
+
+The SDK is fetch-only — no Node-specific APIs. It runs unchanged inside
+Cloudflare Workers, Vercel Edge, Deno Deploy, Bun, Hono.
+
+```ts
+import { AIgateway } from "aigateway-js";
+
+export default {
+  async fetch(req: Request, env: { AIGATEWAY_API_KEY: string }) {
+    const client = new AIgateway({ apiKey: env.AIGATEWAY_API_KEY });
+    const job = await client.jobs.createVideo({
+      prompt: "a koi pond at dusk",
+      model: "runwayml/gen-4",
+    });
+    return Response.json({ jobId: job.id });
+  },
+};
+```
+
 ## Aggregator primitives
 
 ```ts
@@ -78,7 +102,7 @@ const sub = await client.subAccounts.create({
 // Run an eval across candidate models.
 const run = await client.evals.create({
   name: "prod-summarize",
-  candidateModels: ["anthropic/claude-opus-4.7", "moonshot/kimi-k2.6"],
+  candidateModels: ["anthropic/claude-opus-4.7", "moonshot/kimi-k2.7-code"],
   dataset: [{ input: "…", expected: "…" }],
   metric: "quality",
 });

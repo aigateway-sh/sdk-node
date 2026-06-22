@@ -1,6 +1,6 @@
 {
   "name": "aigateway-js",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Official Node/TypeScript SDK for AIgateway — async jobs, sub-accounts, evals, replays, webhook verification. Install as aigateway-js; the bare 'aigateway' name is unavailable on npm.",
   "keywords": [
     "ai",

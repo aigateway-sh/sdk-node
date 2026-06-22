@@ -5,7 +5,7 @@
 // drop-in. This SDK covers the aggregator-native endpoints and the async
 // job flow that OpenAI doesn't model.
 
-export const VERSION = '0.1.2';
+export const VERSION = '0.1.3';
 export const DEFAULT_BASE_URL = 'https://api.aigateway.sh';
 export const DEFAULT_MEDIA_BASE_URL = 'https://media.aigateway.sh';
 
@@ -38,7 +38,14 @@ export interface VideoRequest {
 export interface MusicRequest {
   prompt: string;
   model?: string;
+  /** Target length in seconds. Honored where the model supports it (stable-audio, ace-step, mmaudio, elevenlabs) and clamped to its range; some models (minimax music) pick their own length. */
   duration?: number;
+  /** Optional lyrics. Omit (or set is_instrumental) for an instrumental track. */
+  lyrics?: string;
+  /** Generate an instrumental track with no vocals. */
+  is_instrumental?: boolean;
+  /** Let the model refine supplied lyrics. Defaults to true. */
+  lyrics_optimizer?: boolean;
   webhook_url?: string;
 }
 
